@@ -13,9 +13,13 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Майбутній Shopping List")
+            Text("Створено вгадайте ким? 🤔")
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+        .preferredColorScheme(.light)
     }
 }
 
