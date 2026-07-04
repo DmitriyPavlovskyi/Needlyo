@@ -6,14 +6,48 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0C6CAB622FF943FE0042D0D3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0C6CAB602FF943F80042D0D3 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Needlyo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C6CAB602FF943F80042D0D3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0C6CAB752FF944840042D0D3 /* Exceptions for "Documentation" folder in "Needlyo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AI_RULES.md,
+			);
+			target = 0C6CAB362FF8F4EE0042D0D3 /* Needlyo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		0C6CAB762FF944840042D0D3 /* Exceptions for "Documentation" folder in "Compile Sources" phase from "Needlyo" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 0C6CAB332FF8F4EE0042D0D3 /* Sources */;
+			membershipExceptions = (
+				AI_RULES.md,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0C6CAB392FF8F4EE0042D0D3 /* Needlyo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Needlyo;
+			sourceTree = "<group>";
+		};
+		0C6CAB5F2FF943CB0042D0D3 /* Documentation */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0C6CAB752FF944840042D0D3 /* Exceptions for "Documentation" folder in "Needlyo" target */,
+				0C6CAB762FF944840042D0D3 /* Exceptions for "Documentation" folder in "Compile Sources" phase from "Needlyo" target */,
+			);
+			path = Documentation;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,8 +66,10 @@
 		0C6CAB2E2FF8F4EE0042D0D3 = {
 			isa = PBXGroup;
 			children = (
+				0C6CAB5F2FF943CB0042D0D3 /* Documentation */,
 				0C6CAB392FF8F4EE0042D0D3 /* Needlyo */,
 				0C6CAB382FF8F4EE0042D0D3 /* Products */,
+				0C6CAB602FF943F80042D0D3 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +98,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				0C6CAB392FF8F4EE0042D0D3 /* Needlyo */,
+				0C6CAB5F2FF943CB0042D0D3 /* Documentation */,
 			);
 			name = Needlyo;
 			packageProductDependencies = (
@@ -109,6 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C6CAB622FF943FE0042D0D3 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
