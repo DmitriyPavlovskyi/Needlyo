@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Needlyo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Needlyo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0C6CAB392FF8F4EE0042D0D3 /* Needlyo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Needlyo";
+			path = Needlyo;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -63,10 +63,10 @@
 			fileSystemSynchronizedGroups = (
 				0C6CAB392FF8F4EE0042D0D3 /* Needlyo */,
 			);
-			name = "Needlyo";
+			name = Needlyo;
 			packageProductDependencies = (
 			);
-			productName = "Needlyo";
+			productName = Needlyo;
 			productReference = 0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */;
 			productType = "com.apple.product-type.application";
 		};
