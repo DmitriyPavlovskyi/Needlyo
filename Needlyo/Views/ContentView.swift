@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  Shopping List
+//  Needlyo
 //
 //  Created by Dmytro Pavlovskyi1 on 04.07.2026.
 //
@@ -18,8 +18,8 @@ struct ContentView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-        .preferredColorScheme(.light)
+        .background(Color.black)
+        .preferredColorScheme(.dark)
     }
 }
 

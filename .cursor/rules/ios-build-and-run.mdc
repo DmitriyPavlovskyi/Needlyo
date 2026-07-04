@@ -1,0 +1,18 @@
+---
+description: After Swift/iOS code changes, verify build and launch simulator
+alwaysApply: true
+---
+
+# iOS Build & Simulator Workflow
+
+After every code change in this project:
+
+1. **Build** — run `xcodebuild` for scheme `Needlyo` on iOS Simulator (e.g. iPhone 17). Do not use `-derivedDataPath` inside the project folder.
+2. **Verify** — confirm `BUILD SUCCEEDED`. If the build fails, fix errors before continuing.
+3. **Launch simulator** — only if the build succeeds:
+   - Boot simulator and wait: `xcrun simctl bootstatus <SIM_ID> -b`
+   - Install the `.app` from DerivedData or build output
+   - Launch with `xcrun simctl launch <SIM_ID> com.dmitriypavlovskyi.Needlyo`
+   - Open Simulator app if not visible: `open -a Simulator`
+
+Never commit `build/`, `DerivedData/`, or `xcuserdata/` — they are in `.gitignore`.
