@@ -4,13 +4,9 @@ import SwiftUI
 struct NeedlyoApp: App {
 
     var body: some Scene {
-
         WindowGroup {
-
             RootView()
-
         }
-
     }
 
 }
