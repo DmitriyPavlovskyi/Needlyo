@@ -6,6 +6,8 @@ Shopping list application built with SwiftUI.
 
 Needlyo is designed to become a smooth and enjoyable shopping list app for iPhone.
 
+The visual system follows a minimalist, calm sage palette with one primary accent color across the app.
+
 ## Tech Stack
 
 - SwiftUI
@@ -25,6 +27,7 @@ Needlyo is designed to become a smooth and enjoyable shopping list app for iPhon
 - Voice input for adding items
 - Rule-based category classification
 - Empty state
+- Minimalist calm-sage UI palette
 
 ## Planned next steps
 

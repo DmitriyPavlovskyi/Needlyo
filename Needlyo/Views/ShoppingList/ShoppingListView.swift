@@ -6,13 +6,15 @@ struct ShoppingListView: View {
     private var viewModel = ShoppingListViewModel()
 
     var body: some View {
-        List {
-            if viewModel.visibleItems.isEmpty {
-                emptyState
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-            } else {
-                Section {
+        ZStack(alignment: .bottom) {
+            Color.appBackground.ignoresSafeArea()
+
+            List {
+                if viewModel.visibleItems.isEmpty {
+                    emptyState
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                } else {
                     ForEach(viewModel.visibleItems) { item in
                         ShoppingItemRow(
                             item: item,
@@ -20,25 +22,31 @@ struct ShoppingListView: View {
                                 viewModel.toggleCompletion(for: item)
                             }
                         )
+                        .listRowInsets(EdgeInsets(top: 1, leading: 6, bottom: 1, trailing: 6))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
+                            Button {
                                 delete(item)
                             } label: {
                                 Label("Видалити", systemImage: "trash")
                             }
+                            .tint(Color.appDestructive)
                         }
                     }
                     .onDelete(perform: viewModel.deleteItems)
                 }
             }
-        }
-        .listStyle(.insetGrouped)
-        .searchable(text: $viewModel.searchText, prompt: "Шукати товари...")
-        .safeAreaInset(edge: .bottom) {
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .contentMargins(.top, 8, for: .scrollContent)
+            .background(Color.appBackground)
+            .safeAreaInset(edge: .top, spacing: 0) {
+                topHeader
+            }
+
             microphoneArea
         }
-        .navigationTitle("Що треба купити")
-        .navigationBarTitleDisplayMode(.large)
         .alert(
             "Голосовий ввід недоступний",
             isPresented: Binding(
@@ -56,30 +64,51 @@ struct ShoppingListView: View {
         }
     }
 
+    private var topHeader: some View {
+        VStack(spacing: 10) {
+            Text("Що треба купити")
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(Color.appTextPrimary)
+                .frame(maxWidth: .infinity, alignment: .center)
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 10)
+        .padding(.bottom, 10)
+        .frame(maxWidth: .infinity, minHeight: 64)
+        .background(Color.appBackground)
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color.appBorder)
+                .frame(height: 1)
+        }
+    }
+
     private var emptyState: some View {
         VStack(spacing: 12) {
             Image(systemName: "cart")
                 .font(.system(size: 56, weight: .regular))
-                .foregroundStyle(.secondary.opacity(0.35))
+                .foregroundStyle(Color.appPrimarySoft)
 
             Text("Список порожній")
                 .font(.headline)
+                .foregroundStyle(Color.appTextPrimary)
 
             Text("Натисни кнопку мікрофона та скажи що хочеш купити")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.appTextSecondary)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 120)
+        .padding(.horizontal, 32)
     }
 
     private var microphoneArea: some View {
         VStack(spacing: 8) {
             if viewModel.isListening {
                 Text(viewModel.dictatedText.isEmpty ? "Слухаю..." : viewModel.dictatedText)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.callout.weight(.medium))
+                    .foregroundStyle(Color.appTextPrimary)
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
@@ -92,18 +121,23 @@ struct ShoppingListView: View {
             } label: {
                 Image(systemName: viewModel.isListening ? "stop.fill" : "mic.fill")
                     .font(.system(size: 24, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.appPrimaryText)
                     .frame(width: 60, height: 60)
-                    .background(viewModel.isListening ? Color.red : Color.accentColor)
+                    .background(viewModel.isListening ? Color.appPrimaryStrong : Color.appPrimary)
                     .clipShape(Circle())
-                    .shadow(color: .black.opacity(0.18), radius: 8, y: 4)
             }
             .accessibilityLabel(viewModel.isListening ? "Зупинити голосовий ввід" : "Почати голосовий ввід")
         }
         .frame(maxWidth: .infinity)
-        .padding(.top, 8)
-        .padding(.bottom, 12)
-        .background(.bar)
+        .padding(.top, 10)
+        .padding(.bottom, 18)
+        .padding(.horizontal, 16)
+        .background(Color.appBackground.ignoresSafeArea(edges: .bottom))
+        .overlay(alignment: .top) {
+            Rectangle()
+                .fill(Color.appBorder)
+                .frame(height: 1)
+        }
     }
 
     private func delete(_ item: ShoppingItem) {

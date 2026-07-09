@@ -6,7 +6,6 @@ import Foundation
 final class ShoppingListViewModel {
 
     var items: [ShoppingItem] = []
-    var searchText = ""
     var dictatedText = ""
     var isListening = false
     var errorMessage: String?
@@ -15,15 +14,7 @@ final class ShoppingListViewModel {
     private let speechRecognitionService: SpeechRecognitionService
 
     var visibleItems: [ShoppingItem] {
-        let trimmedSearchText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard !trimmedSearchText.isEmpty else {
-            return items
-        }
-
-        return items.filter { item in
-            item.title.localizedCaseInsensitiveContains(trimmedSearchText)
-        }
+        items
     }
 
     init(speechRecognitionService: SpeechRecognitionService? = nil) {
