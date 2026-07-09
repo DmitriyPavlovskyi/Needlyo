@@ -90,6 +90,13 @@ Guidelines:
 - Large views should be decomposed into reusable components.
 - Keep nested view hierarchies shallow when practical.
 - Prefer native SwiftUI controls before custom UI.
+- All visual decisions must follow `Documentation/DESIGN.MD`.
+- Do not introduce new colors, tints, or surface treatments unless the design document is updated first.
+- The app should stay within one neutral visual system plus one primary accent color.
+- Use semantic design tokens for all colors.
+- Do not hardcode hex values, named colors, or category-specific tints inside Views.
+- If the palette changes, update the centralized token mapping once instead of changing each screen.
+- Keep color usage semantic: background, surface, border, primary, soft accent, text, destructive.
 
 Current implementation note:
 
@@ -243,7 +250,23 @@ This is a mandatory rule.
 
 ---
 
-# 16. Git workflow
+# 16. Design token scaling
+
+The visual system must remain easy to change later.
+
+Rules:
+
+- Keep the palette in one centralized design source.
+- Keep semantic token names stable even if the underlying hex values change.
+- Update the design document first when changing palette direction.
+- Avoid spreading direct color values across Views, ViewModels, or services.
+- If a view needs a new color behavior, define the semantic need first, then add the token centrally.
+
+This rule exists so the app can evolve visually without large-scale refactors.
+
+---
+
+# 17. Git workflow
 
 - Commit frequently.
 - Keep each commit logically focused.
@@ -268,7 +291,7 @@ Before finishing work:
 
 ---
 
-# 17. Future direction
+# 18. Future direction
 
 The project is expected to evolve toward:
 
@@ -287,7 +310,7 @@ These are future goals unless they are explicitly implemented.
 
 ---
 
-# 18. Non-negotiable rules
+# 19. Non-negotiable rules
 
 - Never sacrifice readability.
 - Never introduce technical debt knowingly.
