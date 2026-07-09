@@ -10,6 +10,7 @@ final class ShoppingListViewModel {
     var isListening = false
     var errorMessage: String?
     private var dictatedSnapshot: SpeechRecognitionSnapshot?
+    private var recognitionStartTask: Task<Void, Never>?
 
     private let speechRecognitionService: SpeechRecognitionService
 
@@ -41,11 +42,33 @@ final class ShoppingListViewModel {
 
             isListening = true
 
-            try speechRecognitionService.startRecognition { [weak self] snapshot in
-                self?.dictatedText = snapshot.text
-                self?.dictatedSnapshot = snapshot
-            } onFinish: { [weak self] in
-                self?.finishListening()
+            recognitionStartTask?.cancel()
+            let speechRecognitionService = self.speechRecognitionService
+
+            recognitionStartTask = Task(priority: .userInitiated) { [weak self] in
+                guard let self else { return }
+                guard !Task.isCancelled else { return }
+
+                do {
+                    try speechRecognitionService.startRecognition { [weak self] snapshot in
+                        self?.dictatedText = snapshot.text
+                        self?.dictatedSnapshot = snapshot
+                    } onFinish: { [weak self] in
+                        self?.finishListening()
+                    }
+
+                    await MainActor.run {
+                        self.recognitionStartTask = nil
+                    }
+                } catch {
+                    guard !Task.isCancelled else { return }
+
+                    await MainActor.run {
+                        self.errorMessage = error.localizedDescription
+                        self.isListening = false
+                        self.recognitionStartTask = nil
+                    }
+                }
             }
         } catch {
             errorMessage = error.localizedDescription
@@ -73,6 +96,8 @@ final class ShoppingListViewModel {
             return
         }
 
+        recognitionStartTask?.cancel()
+        recognitionStartTask = nil
         speechRecognitionService.stopRecognition()
         appendItems(from: dictatedSnapshot)
         dictatedText = ""

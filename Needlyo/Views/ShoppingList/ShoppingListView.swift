@@ -106,7 +106,7 @@ struct ShoppingListView: View {
     private var microphoneArea: some View {
         VStack(spacing: 8) {
             if viewModel.isListening {
-                Text(viewModel.dictatedText.isEmpty ? "Слухаю..." : viewModel.dictatedText)
+                Text(viewModel.dictatedText.isEmpty ? "Говоріть..." : viewModel.dictatedText)
                     .font(.callout.weight(.medium))
                     .foregroundStyle(Color.appTextPrimary)
                     .lineLimit(2)

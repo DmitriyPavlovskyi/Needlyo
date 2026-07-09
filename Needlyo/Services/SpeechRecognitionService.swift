@@ -1,7 +1,6 @@
 import AVFoundation
 import Speech
 
-@MainActor
 final class SpeechRecognitionService {
 
     private let audioEngine = AVAudioEngine()
