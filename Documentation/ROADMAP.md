@@ -1,39 +1,33 @@
 # Roadmap
 
-## Phase 1
+## Current state
 
 - Foundation ✅
-- Documentation
-- Standards
-
-## Phase 2
-
-- Shopping Item Model
-- Repository
-- SwiftData
-
-## Phase 3
-
-- MVP
-
-- Add Item
-
-- Delete Item
-
-- Complete Item
-
-## Phase 4
-
-- Categories
-
+- One main shopping list screen
 - Search
+- Category grouping
+- Checkbox completion
+- Swipe-to-delete
+- Speech recognition input
+- Keyword-based classification
 
+## Next
+
+- Persistence layer
+- Repository abstraction
+- Save and restore shopping items
+- Better delete and completion flows
+- Tests for parsing, classification, and list behavior
+
+## Later
+
+- Add item sheet or dedicated add flow
+- Completed section
 - Statistics
-
 - Widgets
-
-- Siri
-
-- Shared Lists
-
-- iCloud
+- Siri and shortcuts
+- Shared lists
+- iCloud sync
+- Localization
+- Accessibility improvements
+- Feature-first folder structure when multiple screens exist

@@ -1,9 +1,8 @@
 # Needlyo AI Rules
 
-Version: 1.0
+Version: 1.1
 
-This document defines the development standards, architecture,
-coding conventions and engineering principles used in the Needlyo project.
+This document defines the development standards, architecture, coding conventions, and engineering principles used in the Needlyo project.
 
 Every contributor (human or AI) must follow these rules.
 
@@ -11,112 +10,109 @@ Every contributor (human or AI) must follow these rules.
 
 # 1. Vision
 
-Needlyo is built as a long-term product.
-
-Every architectural decision must prioritize:
+Needlyo is a long-term product. Every architectural decision must prioritize:
 
 - Maintainability
 - Readability
-- Scalability
 - Simplicity
+- Scalability
+- Consistency
 
-Short-term optimizations must never reduce long-term code quality.
+Short-term convenience must not create long-term maintenance cost.
 
 ---
 
-# 2. Project Philosophy
+# 2. Project philosophy
 
 We optimize for:
 
-Readable code > Clever code
+- Readable code over clever code
+- Simple solutions over complex solutions
+- Consistency over personal preference
+- Quality over quantity
+- Architecture over speed when the two conflict
 
-Simple solutions > Complex solutions
-
-Architecture > Speed
-
-Consistency > Personal preference
-
-Quality > Quantity
+If a solution is technically correct but hard to understand, prefer the clearer option.
 
 ---
 
-# 3. Architecture
+# 3. Current architecture
 
-Architecture:
+Needlyo currently uses:
 
-MVVM
+- SwiftUI
+- Observation framework
+- MVVM-style screen state
+- Layer-based folder structure
+- Services for reusable logic
+- Data-only model types
 
-SwiftUI
+Current flow:
 
-Observation Framework
+`NeedlyoApp -> RootView -> ShoppingListView -> ShoppingListViewModel -> Services -> Models`
 
-SwiftData
+Rules:
 
-Dependency Injection
-
-Repository Pattern (when persistence becomes complex)
-
-Feature Modules (introduced when multiple features exist)
-
-Business logic must never exist inside SwiftUI Views.
-
-Views display data only.
+- Views render UI and forward user intent.
+- ViewModels own screen state and orchestration.
+- Services encapsulate reusable logic and platform APIs.
+- Models stay lightweight and data-oriented.
+- Business logic must not live inside Views.
 
 ---
 
-# 4. Folder Structure
+# 4. Folder structure
 
 Current project structure:
 
-Needlyo/
+- `App/`
+- `Views/`
+- `ViewModels/`
+- `Services/`
+- `Models/`
+- `Resources/`
+- `Documentation/`
 
-App/
+Guidelines:
 
-Resources/
-
-Views/
-
-ViewModels/
-
-Documentation/
-
-When the application grows, migrate to Feature First Architecture.
-
----
-
-# 5. SwiftUI Rules
-
-Views are declarative.
-
-Views never own business logic.
-
-Views never perform networking.
-
-Views never access persistence directly.
-
-Large Views must be decomposed into reusable Components.
-
-Avoid nested Views deeper than 3-4 levels whenever practical.
+- Keep the current structure simple while the app has one primary feature.
+- Move to feature-first modules when multiple screens or workflows create real complexity.
+- Shared components should only be introduced when reuse is proven.
 
 ---
 
-# 6. ViewModel Rules
+# 5. SwiftUI rules
 
-Every screen owns exactly one ViewModel unless complexity requires otherwise.
+- Views are declarative.
+- Views must not contain business logic.
+- Views must not access persistence directly.
+- Views must not coordinate platform APIs directly when a service can do it.
+- Large views should be decomposed into reusable components.
+- Keep nested view hierarchies shallow when practical.
+- Prefer native SwiftUI controls before custom UI.
 
-ViewModels:
+Current implementation note:
 
-contain business logic
+- `ShoppingListView` owns the main screen composition.
+- `ShoppingItemRow` is a reusable row component.
+- The app currently uses `NavigationStack`, `List`, `searchable`, and `swipeActions`.
 
-transform models into presentation state
+---
 
-coordinate Services
+# 6. ViewModel rules
 
-never contain UI layout
+- Each screen should have one main ViewModel unless complexity requires more.
+- ViewModels contain business logic and screen state.
+- ViewModels coordinate services.
+- ViewModels transform raw data into presentation state.
+- ViewModels must not contain layout code.
+- ViewModels must not import UIKit unless there is a strong platform reason.
+- Prefer value transformations over excessive mutable state.
 
-never import UIKit
+Current implementation note:
 
-Prefer value transformations over mutable state.
+- `ShoppingListViewModel` currently handles search, grouping, completion toggling, speech recognition flow, and voice parsing.
+- If a ViewModel starts to collect too many responsibilities, extract a helper service or parser.
 
 ---
 
@@ -126,37 +122,26 @@ Use Apple's Observation framework.
 
 Prefer:
 
-@Observable
+- `@Observable`
+- `@State`
 
-instead of:
+Avoid:
 
-ObservableObject
-
-Use:
-
-@State
-
-instead of:
-
-@StateObject
-
-whenever Observation is used.
+- `ObservableObject` unless you specifically need it
+- `@StateObject` when Observation already solves the problem
 
 ---
 
 # 8. Models
 
-Models contain only data.
+- Models contain data only.
+- Models should not contain UI layout.
+- Models should not contain platform coordination.
+- Models should not contain networking.
+- Prefer `struct` unless reference semantics are required.
+- Keep models small and explicit.
 
-No UI code.
-
-No business logic.
-
-No networking.
-
-Prefer immutable models.
-
-Use struct unless reference semantics are required.
+If a type starts to mix data and presentation metadata, separate the responsibilities before the model becomes hard to reuse.
 
 ---
 
@@ -164,27 +149,26 @@ Use struct unless reference semantics are required.
 
 Services contain reusable application logic.
 
-Examples:
+Examples in this project:
 
-StorageService
+- `SpeechRecognitionService`
+- `ShoppingItemClassificationService`
 
-AnalyticsService
+Service rules:
 
-SettingsService
-
-ImportExportService
-
-Services never know about Views.
+- Services must not know about Views.
+- Services should be easy to test in isolation.
+- Services should own platform-specific work such as speech, audio, or classification rules.
+- Prefer dependency injection when a service can vary in tests or future implementations.
 
 ---
 
 # 10. Persistence
 
-SwiftData is the default persistence layer.
-
-Repositories abstract persistence from ViewModels.
-
-ViewModels should never manipulate SwiftData directly.
+- Persistence is not fully implemented yet.
+- Do not pretend it exists in documentation or code comments.
+- When persistence is added, ViewModels should not talk directly to storage APIs if a repository can abstract the dependency.
+- SwiftData is a likely future default, but it is not required today.
 
 ---
 
@@ -192,315 +176,129 @@ ViewModels should never manipulate SwiftData directly.
 
 Use clear English names.
 
-Avoid abbreviations.
+Avoid abbreviations such as:
 
-Bad:
+- `VM`
+- `Obj`
+- `Tmp`
+- `Mgr`
 
-VM
+Prefer descriptive names such as:
 
-Obj
+- `ShoppingListViewModel`
+- `ShoppingItem`
+- `ShoppingRepository`
 
-Tmp
-
-Mgr
-
-Good:
-
-ShoppingListViewModel
-
-ShoppingItem
-
-ShoppingRepository
+Use Ukrainian or localized user-facing text only where it is intentionally part of the product experience.
 
 ---
 
-# 12. SOLID
+# 12. Error handling
 
-Follow all SOLID principles.
-
-Single Responsibility
-
-Open Closed
-
-Liskov
-
-Interface Segregation
-
-Dependency Inversion
+- Never silently ignore errors.
+- Avoid force unwraps.
+- Prefer `guard let`, `if let`, and nil coalescing.
+- Provide meaningful user-facing error messages.
+- Prefer `Result` or `async` error propagation when it improves clarity.
 
 ---
 
-# 13. DRY
+# 13. Concurrency
 
-Never duplicate business logic.
-
-Extract reusable code.
-
-Avoid copy-paste.
+- Prefer `async`/`await` over callback-heavy code when practical.
+- Keep UI updates on `MainActor`.
+- Keep long-running work off the main thread unless the API requires otherwise.
 
 ---
 
-# 14. KISS
+# 14. Formatting
 
-Always choose the simplest solution that solves the problem.
+- Use Xcode default formatting.
+- Prefer four-space indentation.
+- Keep one primary responsibility per file.
+- Keep files small and readable.
+- Aim for small functions with clear names.
+- Extract helper methods instead of nesting deep conditionals.
 
-Avoid unnecessary abstractions.
+Practical targets:
 
----
-
-# 15. YAGNI
-
-Do not implement functionality before it is needed.
-
-Avoid speculative development.
-
----
-
-# 16. Composition
-
-Prefer composition over inheritance.
-
-Avoid deep inheritance hierarchies.
+- Views: ideally under 150 lines when reasonable
+- ViewModels: keep small enough to scan quickly
+- Services: keep focused on one job
 
 ---
 
-# 17. Error Handling
+# 15. Documentation
 
-Never silently ignore errors.
+Documentation must stay synchronized with the implementation.
 
-Avoid force unwrap (!)
+Required docs sync rule:
 
-Prefer Result where appropriate.
+- After every completed code change, update all affected documentation before finishing the work.
+- If architecture, behavior, or UI changes, update the relevant files in `Documentation/` and `README.md` in the same iteration.
+- Do not leave docs in a state that contradicts the current app.
+- If a rule or design note becomes outdated, either update it or move it clearly into a future-direction section.
 
-Provide meaningful error messages.
-
----
-
-# 18. Optionals
-
-Avoid force unwrap.
-
-Prefer:
-
-guard let
-
-if let
-
-nil coalescing
+This is a mandatory rule.
 
 ---
 
-# 19. Concurrency
+# 16. Git workflow
 
-Use async/await.
+- Commit frequently.
+- Keep each commit logically focused.
+- Every commit should compile.
+- Every commit should reflect a clean state.
 
-Avoid callbacks.
+Commit prefixes:
 
-All UI updates occur on MainActor.
+- `feat:`
+- `fix:`
+- `refactor:`
+- `docs:`
+- `test:`
+- `chore:`
 
----
+Before finishing work:
 
-# 20. Documentation
-
-Public APIs require documentation.
-
-Complex algorithms require comments explaining why.
-
-Avoid comments that describe obvious code.
-
-Explain intent.
-
----
-
-# 21. Formatting
-
-Use Xcode default formatting.
-
-4 spaces.
-
-One type per file.
-
-One primary responsibility per file.
-
-Keep files small.
-
-Target:
-
-<250 lines.
-
-Ideal:
-
-<150 lines.
+- build successfully
+- run successfully when practical
+- update docs if anything changed
+- avoid temporary or commented-out code
 
 ---
 
-# 22. Functions
-
-Prefer small functions.
-
-Target:
-
-<30 lines.
-
-Avoid deeply nested conditions.
-
-Extract helper methods.
-
----
-
-# 23. File Organization
-
-Imports
-
-Type definition
-
-Properties
-
-Initialization
-
-Public methods
-
-Private methods
-
-Extensions
-
-Preview
-
-Always keep this order.
-
----
-
-# 24. Git
-
-Commit frequently.
-
-One logical change per commit.
-
-Every commit must compile.
-
-Commit messages:
-
-feat:
-
-fix:
-
-refactor:
-
-docs:
-
-test:
-
-chore:
-
----
-
-# 25. Before Every Commit
-
-The project must:
-
-Build successfully
-
-Run successfully
-
-Contain no compiler warnings
-
-Contain no temporary code
-
-Contain no commented-out code
-
----
-
-# 26. AI Responsibilities
-
-Before suggesting code the AI must:
-
-understand existing architecture
-
-avoid duplication
-
-respect project conventions
-
-prefer maintainability
-
-keep consistency
-
-After every change AI must verify:
-
-architecture
-
-naming
-
-simplicity
-
-future scalability
-
----
-
-# 27. Definition of Done
-
-A task is finished only if:
-
-code compiles
-
-application launches
-
-architecture respected
-
-documentation updated if needed
-
-git status clean
-
-commit created
-
----
-
-# 28. Future Direction
+# 17. Future direction
 
 The project is expected to evolve toward:
 
-Feature First Architecture
+- Persistence
+- Repository pattern
+- Feature-first architecture
+- Shared components
+- Localization
+- Accessibility improvements
+- Widgets
+- Siri and shortcuts
+- iCloud sync
+- Tests
 
-Shared Components
-
-SwiftData
-
-Cloud Sync
-
-Widgets
-
-Analytics
-
-Shortcuts
-
-Accessibility
-
-Localization
-
-Unit Tests
-
-Snapshot Tests
+These are future goals unless they are explicitly implemented.
 
 ---
 
-# 29. Non-Negotiable Rules
+# 18. Non-negotiable rules
 
-Never sacrifice readability.
-
-Never introduce technical debt knowingly.
-
-Never duplicate architecture.
-
-Never place business logic inside Views.
-
-Never push broken builds.
-
-Never ignore compiler warnings.
-
-Always leave the codebase cleaner than you found it.
+- Never sacrifice readability.
+- Never introduce technical debt knowingly.
+- Never duplicate architecture.
+- Never place business logic inside Views.
+- Never ignore compiler warnings.
+- Never push a broken state intentionally.
+- Always leave the codebase cleaner than you found it.
 
 ---
 
-# Final Principle
+# Final principle
 
-Every commit should make the project
-better than it was before.
+Every change should make Needlyo easier to understand, easier to extend, and more consistent than before.
