@@ -12,7 +12,7 @@ final class ShoppingListViewModel {
     private var dictatedSnapshot: SpeechRecognitionSnapshot?
     private var recognitionStartTask: Task<Void, Never>?
 
-    private let speechRecognitionService: SpeechRecognitionService
+    private let speechRecognitionService: any SpeechRecognitionServicing
     private let persistenceService: ShoppingListPersistenceService
     private let itemParsingService: ShoppingItemParsingService
 
@@ -21,7 +21,7 @@ final class ShoppingListViewModel {
     }
 
     init(
-        speechRecognitionService: SpeechRecognitionService? = nil,
+        speechRecognitionService: (any SpeechRecognitionServicing)? = nil,
         persistenceService: ShoppingListPersistenceService? = nil,
         itemParsingService: ShoppingItemParsingService? = nil
     ) {

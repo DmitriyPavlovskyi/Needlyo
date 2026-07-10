@@ -292,9 +292,17 @@ Commit prefixes:
 Before finishing work:
 
 - build successfully
+- run the existing test suite and confirm it passes whenever a build is run
+- check for compiler or project errors after the build/test pass
 - run successfully when practical
 - update docs if anything changed
 - avoid temporary or commented-out code
+
+Testing policy:
+
+- Reuse and maintain the existing tests for the current behavior.
+- Do not create new tests automatically for every prompt.
+- Write new tests only when the user explicitly asks for them or when the task specifically requires test creation.
 
 ---
 

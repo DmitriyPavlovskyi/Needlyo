@@ -25,6 +25,7 @@ The visual system follows a minimalist, calm sage palette with one primary accen
 - Checkbox completion
 - Swipe-to-delete
 - Voice input for adding items
+- XCTest coverage for core parser, persistence, view model, and model behavior
 - Rule-based category classification
 - Empty state
 - Minimalist calm-sage UI palette
@@ -35,7 +36,7 @@ The visual system follows a minimalist, calm sage palette with one primary accen
 - Repository layer
 - Add item flow
 - Completed section
-- Tests
+- Additional feature coverage as the app grows
 
 ## Status
 
@@ -44,3 +45,5 @@ Foundation completed
 Core list experience in place
 
 Documentation aligned with current implementation
+
+Builds should be followed by the existing test suite and an error check before changes are considered complete.

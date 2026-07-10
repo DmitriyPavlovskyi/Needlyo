@@ -13,6 +13,7 @@
 /* Begin PBXFileReference section */
 		0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Needlyo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C6CAB602FF943F80042D0D3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1C6CACD9300034C70042D0D4 /* NeedlyoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeedlyoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -26,10 +27,22 @@
 			path = Documentation;
 			sourceTree = "<group>";
 		};
+		1C6CACDA300034C70042D0D4 /* NeedlyoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NeedlyoTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		0C6CAB342FF8F4EE0042D0D3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C6CACDD300034C70042D0D4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -44,6 +57,7 @@
 			children = (
 				0C6CAB5F2FF943CB0042D0D3 /* Documentation */,
 				0C6CAB392FF8F4EE0042D0D3 /* Needlyo */,
+				1C6CACDA300034C70042D0D4 /* NeedlyoTests */,
 				0C6CAB382FF8F4EE0042D0D3 /* Products */,
 				0C6CAB602FF943F80042D0D3 /* README.md */,
 				0C6CACDE300034C70042D0D3 /* Recovered References */,
@@ -54,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */,
+				1C6CACD9300034C70042D0D4 /* NeedlyoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -66,6 +81,16 @@
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXContainerItemProxy section */
+		1C6CACE3300034C70042D0D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0C6CAB2F2FF8F4EE0042D0D3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0C6CAB362FF8F4EE0042D0D3;
+			remoteInfo = Needlyo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXNativeTarget section */
 		0C6CAB362FF8F4EE0042D0D3 /* Needlyo */ = {
@@ -90,7 +115,38 @@
 			productReference = 0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */;
 			productType = "com.apple.product-type.application";
 		};
+		1C6CACDB300034C70042D0D4 /* NeedlyoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C6CACE1300034C70042D0D4 /* Build configuration list for PBXNativeTarget "NeedlyoTests" */;
+			buildPhases = (
+				1C6CACDC300034C70042D0D4 /* Sources */,
+				1C6CACDD300034C70042D0D4 /* Frameworks */,
+				1C6CACDE300034C70042D0D4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1C6CACE4300034C70042D0D4 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				1C6CACDA300034C70042D0D4 /* NeedlyoTests */,
+			);
+			name = NeedlyoTests;
+			packageProductDependencies = (
+			);
+			productName = NeedlyoTests;
+			productReference = 1C6CACD9300034C70042D0D4 /* NeedlyoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
+
+/* Begin PBXTargetDependency section */
+		1C6CACE4300034C70042D0D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0C6CAB362FF8F4EE0042D0D3 /* Needlyo */;
+			targetProxy = 1C6CACE3300034C70042D0D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXProject section */
 		0C6CAB2F2FF8F4EE0042D0D3 /* Project object */ = {
@@ -101,6 +157,9 @@
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					0C6CAB362FF8F4EE0042D0D3 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					1C6CACDB300034C70042D0D4 = {
 						CreatedOnToolsVersion = 26.6;
 					};
 				};
@@ -120,6 +179,7 @@
 			projectRoot = "";
 			targets = (
 				0C6CAB362FF8F4EE0042D0D3 /* Needlyo */,
+				1C6CACDB300034C70042D0D4 /* NeedlyoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -133,10 +193,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1C6CACDE300034C70042D0D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0C6CAB332FF8F4EE0042D0D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C6CACDC300034C70042D0D4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -337,6 +411,65 @@
 			};
 			name = Release;
 		};
+		1C6CACDF300034C70042D0D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R6GVG8839K;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriypavlovskyi.NeedlyoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_CONST_VALUE_PROTOCOLS = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Needlyo.app/Needlyo";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+			};
+			name = Debug;
+		};
+		1C6CACE0300034C70042D0D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R6GVG8839K;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dmitriypavlovskyi.NeedlyoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_CONST_VALUE_PROTOCOLS = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Needlyo.app/Needlyo";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -354,6 +487,15 @@
 			buildConfigurations = (
 				0C6CAB432FF8F4EF0042D0D3 /* Debug */,
 				0C6CAB442FF8F4EF0042D0D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C6CACE1300034C70042D0D4 /* Build configuration list for PBXNativeTarget "NeedlyoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C6CACDF300034C70042D0D4 /* Debug */,
+				1C6CACE0300034C70042D0D4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

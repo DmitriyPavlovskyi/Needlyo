@@ -25,6 +25,7 @@ Models
 - `ViewModels/` — screen state, user actions, and orchestration.
 - `Services/` — reusable app logic such as speech recognition, speech-to-item parsing, and item classification.
 - `Models/` — value types for shopping data and speech snapshots.
+- `NeedlyoTests/` — XCTest coverage for the parser, persistence, view model, and model behavior.
 - `Resources/` — assets and app resources.
 - `Documentation/` — project rules, roadmap, and design notes.
 
@@ -48,6 +49,7 @@ Models
 - Dedicated speech-to-item parsing that splits multi-item dictation into separate items.
 - Supported voice command prefixes include `додай`, `додати`, `добав`, `добави`, and `добавь`.
 - Keyword-based category classification.
+- XCTest coverage for the existing parser, persistence, view model, and model behavior.
 - Empty state UI.
 
 ## Planned evolution

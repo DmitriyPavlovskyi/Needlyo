@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5
+
+### Added
+
+- XCTest coverage for the core shopping list behavior.
+- A shared test target and scheme so the test suite can run from Xcode.
+
+### Changed
+
+- Documentation now requires running the existing test suite and checking for errors whenever a build is performed.
+- New tests are only written when explicitly requested.
+
+### Notes
+
+- The core parser, persistence service, view model operations, and model serialization are now covered by tests.
+
 ## 0.4
 
 ### Changed

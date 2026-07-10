@@ -1,7 +1,16 @@
 import AVFoundation
 import Speech
 
-final class SpeechRecognitionService {
+protocol SpeechRecognitionServicing {
+    func requestAuthorization() async -> Bool
+    func startRecognition(
+        onUpdate: @escaping (SpeechRecognitionSnapshot) -> Void,
+        onFinish: @escaping () -> Void
+    ) throws
+    func stopRecognition()
+}
+
+final class SpeechRecognitionService: SpeechRecognitionServicing {
 
     private let audioEngine = AVAudioEngine()
     private let speechRecognizer: SFSpeechRecognizer?
