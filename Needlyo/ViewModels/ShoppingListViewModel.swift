@@ -13,13 +13,19 @@ final class ShoppingListViewModel {
     private var recognitionStartTask: Task<Void, Never>?
 
     private let speechRecognitionService: SpeechRecognitionService
+    private let persistenceService: ShoppingListPersistenceService
 
     var visibleItems: [ShoppingItem] {
         items
     }
 
-    init(speechRecognitionService: SpeechRecognitionService? = nil) {
+    init(
+        speechRecognitionService: SpeechRecognitionService? = nil,
+        persistenceService: ShoppingListPersistenceService? = nil
+    ) {
         self.speechRecognitionService = speechRecognitionService ?? SpeechRecognitionService()
+        self.persistenceService = persistenceService ?? UserDefaultsShoppingListPersistenceService()
+        self.items = self.persistenceService.loadItems()
     }
 
     func toggleListening() async {
@@ -35,44 +41,35 @@ final class ShoppingListViewModel {
             return
         }
 
-        do {
-            dictatedText = ""
-            dictatedSnapshot = nil
-            errorMessage = nil
+        dictatedText = ""
+        dictatedSnapshot = nil
+        errorMessage = nil
 
-            isListening = true
+        isListening = true
 
-            recognitionStartTask?.cancel()
-            let speechRecognitionService = self.speechRecognitionService
+        recognitionStartTask?.cancel()
+        let speechRecognitionService = self.speechRecognitionService
 
-            recognitionStartTask = Task(priority: .userInitiated) { [weak self] in
-                guard let self else { return }
+        recognitionStartTask = Task(priority: .userInitiated) { [weak self] in
+            guard let self else { return }
+            guard !Task.isCancelled else { return }
+
+            do {
+                try speechRecognitionService.startRecognition { [weak self] snapshot in
+                    self?.dictatedText = snapshot.text
+                    self?.dictatedSnapshot = snapshot
+                } onFinish: { [weak self] in
+                    self?.finishListening()
+                }
+            } catch {
                 guard !Task.isCancelled else { return }
 
-                do {
-                    try speechRecognitionService.startRecognition { [weak self] snapshot in
-                        self?.dictatedText = snapshot.text
-                        self?.dictatedSnapshot = snapshot
-                    } onFinish: { [weak self] in
-                        self?.finishListening()
-                    }
-
-                    await MainActor.run {
-                        self.recognitionStartTask = nil
-                    }
-                } catch {
-                    guard !Task.isCancelled else { return }
-
-                    await MainActor.run {
-                        self.errorMessage = error.localizedDescription
-                        self.isListening = false
-                        self.recognitionStartTask = nil
-                    }
+                await MainActor.run {
+                    self.errorMessage = error.localizedDescription
+                    self.isListening = false
+                    self.recognitionStartTask = nil
                 }
             }
-        } catch {
-            errorMessage = error.localizedDescription
-            isListening = false
         }
     }
 
@@ -82,6 +79,7 @@ final class ShoppingListViewModel {
         }
 
         items[index].isCompleted.toggle()
+        persistItems()
     }
 
     func deleteItems(at offsets: IndexSet) {
@@ -89,6 +87,7 @@ final class ShoppingListViewModel {
         items.removeAll { item in
             idsToDelete.contains(item.id)
         }
+        persistItems()
     }
 
     private func finishListening() {
@@ -113,6 +112,11 @@ final class ShoppingListViewModel {
         }
 
         items.append(contentsOf: titles.map { ShoppingItem(title: $0) })
+        persistItems()
+    }
+
+    private func persistItems() {
+        persistenceService.saveItems(items)
     }
 
     private func parsedItemTitles(from snapshot: SpeechRecognitionSnapshot?) -> [String] {

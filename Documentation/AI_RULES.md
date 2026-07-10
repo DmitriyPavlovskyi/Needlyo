@@ -239,10 +239,17 @@ Practical targets:
 
 Documentation must stay synchronized with the implementation.
 
+Documentation map rule:
+
+- Use `Documentation/README.md` as the first navigation stop for the docs folder.
+- Do not search every documentation file manually when you need architecture, style, design, Git workflow, changelog, or roadmap information.
+- Open the index first, then go directly to the file that matches the task.
+
 Required docs sync rule:
 
-- After every completed code change, update all affected documentation before finishing the work.
+- After every completed code change or new feature, update all affected documentation immediately before finishing the work.
 - If architecture, behavior, or UI changes, update the relevant files in `Documentation/` and `README.md` in the same iteration.
+- Do not consider a task complete until the implementation and documentation are both aligned.
 - Do not leave docs in a state that contradicts the current app.
 - If a rule or design note becomes outdated, either update it or move it clearly into a future-direction section.
 

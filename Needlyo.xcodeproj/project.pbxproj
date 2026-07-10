@@ -8,13 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0C6CAB622FF943FE0042D0D3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0C6CAB602FF943F80042D0D3 /* README.md */; };
-		1A2B3C4D5E6F700000000001 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F700000000002 /* AppIntents.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Needlyo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C6CAB602FF943F80042D0D3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		1A2B3C4D5E6F700000000002 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,7 +33,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A2B3C4D5E6F700000000001 /* AppIntents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,6 +46,7 @@
 				0C6CAB392FF8F4EE0042D0D3 /* Needlyo */,
 				0C6CAB382FF8F4EE0042D0D3 /* Products */,
 				0C6CAB602FF943F80042D0D3 /* README.md */,
+				0C6CACDE300034C70042D0D3 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +56,13 @@
 				0C6CAB372FF8F4EE0042D0D3 /* Needlyo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0C6CACDE300034C70042D0D3 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,8 +294,8 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_EMIT_CONST_VALUE_PROTOCOLS = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,8 +329,8 @@
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_EMIT_CONST_VALUE_PROTOCOLS = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

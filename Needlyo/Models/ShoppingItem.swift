@@ -1,6 +1,6 @@
 import Foundation
 
-struct ShoppingItem: Identifiable, Equatable {
+struct ShoppingItem: Identifiable, Codable, Equatable {
 
     let id: UUID
     let title: String
