@@ -114,8 +114,30 @@ final class ShoppingListViewModel {
             return
         }
 
-        items.append(contentsOf: titles.map { ShoppingItem(title: $0) })
+        var existingNormalizedTitles = Set(items.map { normalizedTitle(for: $0.title) })
+        let newItems = titles.compactMap { title -> ShoppingItem? in
+            let normalizedTitle = normalizedTitle(for: title)
+
+            guard !normalizedTitle.isEmpty, !existingNormalizedTitles.contains(normalizedTitle) else {
+                return nil
+            }
+
+            existingNormalizedTitles.insert(normalizedTitle)
+            return ShoppingItem(title: title)
+        }
+
+        guard !newItems.isEmpty else {
+            return
+        }
+
+        items.append(contentsOf: newItems)
         persistItems()
+    }
+
+    private func normalizedTitle(for title: String) -> String {
+        title
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
     }
 
     private func persistItems() {

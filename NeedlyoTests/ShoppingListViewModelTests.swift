@@ -56,6 +56,51 @@ final class ShoppingListViewModelTests: XCTestCase {
         XCTAssertEqual(speech.stopRecognitionCallCount, 1)
     }
 
+    func testToggleListeningSkipsItemsAlreadyPresentInList() async {
+        let speech = MockSpeechRecognitionService()
+        speech.snapshotToDeliver = SpeechRecognitionSnapshot(
+            text: "додай молоко, хліб і яйця",
+            segments: [SpeechRecognitionSegment(text: "додай молоко, хліб і яйця", timestamp: 0, duration: 1)]
+        )
+        let existingItems = [ShoppingItem(title: "молоко")]
+        let persistence = MockShoppingListPersistenceService(itemsToLoad: existingItems)
+        let viewModel = ShoppingListViewModel(
+            speechRecognitionService: speech,
+            persistenceService: persistence,
+            itemParsingService: ShoppingItemParsingService()
+        )
+
+        await viewModel.toggleListening()
+        await waitForCondition {
+            speech.stopRecognitionCallCount == 1
+        }
+
+        XCTAssertEqual(viewModel.visibleItems.map(\.title), ["молоко", "хліб", "яйця"])
+        XCTAssertEqual(persistence.lastSavedItems?.map(\.title), ["молоко", "хліб", "яйця"])
+    }
+
+    func testToggleListeningSkipsDuplicateItemsWithinIncomingBatch() async {
+        let speech = MockSpeechRecognitionService()
+        speech.snapshotToDeliver = SpeechRecognitionSnapshot(
+            text: "додай молоко, молоко і хліб",
+            segments: [SpeechRecognitionSegment(text: "додай молоко, молоко і хліб", timestamp: 0, duration: 1)]
+        )
+        let persistence = MockShoppingListPersistenceService()
+        let viewModel = ShoppingListViewModel(
+            speechRecognitionService: speech,
+            persistenceService: persistence,
+            itemParsingService: ShoppingItemParsingService()
+        )
+
+        await viewModel.toggleListening()
+        await waitForCondition {
+            speech.stopRecognitionCallCount == 1
+        }
+
+        XCTAssertEqual(viewModel.visibleItems.map(\.title), ["молоко", "хліб"])
+        XCTAssertEqual(persistence.lastSavedItems?.map(\.title), ["молоко", "хліб"])
+    }
+
     func testToggleCompletionUpdatesItemAndPersists() {
         let item = ShoppingItem(title: "молоко")
         let persistence = MockShoppingListPersistenceService(itemsToLoad: [item])
