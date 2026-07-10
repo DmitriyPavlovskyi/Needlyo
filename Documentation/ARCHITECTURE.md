@@ -23,7 +23,7 @@ Models
 - `App/` — app entry point and root scene setup.
 - `Views/` — SwiftUI screens and reusable view components.
 - `ViewModels/` — screen state, user actions, and orchestration.
-- `Services/` — reusable app logic such as speech recognition and item classification.
+- `Services/` — reusable app logic such as speech recognition, speech-to-item parsing, and item classification.
 - `Models/` — value types for shopping data and speech snapshots.
 - `Resources/` — assets and app resources.
 - `Documentation/` — project rules, roadmap, and design notes.
@@ -45,6 +45,8 @@ Models
 - Swipe-to-delete.
 - Checkbox completion toggling.
 - Speech recognition for item entry.
+- Dedicated speech-to-item parsing that splits multi-item dictation into separate items.
+- Supported voice command prefixes include `додай`, `додати`, `добав`, `добави`, and `добавь`.
 - Keyword-based category classification.
 - Empty state UI.
 

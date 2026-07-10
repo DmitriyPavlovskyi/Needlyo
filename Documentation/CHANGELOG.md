@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4
+
+### Changed
+
+- Improved voice dictation parsing so multiple items spoken in one sentence are split into separate shopping items more reliably.
+- Introduced a dedicated speech-to-item parsing service to keep parsing logic isolated from the ViewModel.
+- Expanded supported voice command prefixes to include `додай`, `додати`, `добав`, `добави`, and `добавь`.
+
+### Notes
+
+- The app now handles multi-item dictation better when users say a list in one sentence.
+
 ## 0.3
 
 ### Changed

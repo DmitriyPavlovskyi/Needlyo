@@ -6,47 +6,45 @@ struct ShoppingListView: View {
     private var viewModel = ShoppingListViewModel()
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color.appBackground.ignoresSafeArea()
-
-            List {
-                if viewModel.visibleItems.isEmpty {
-                    emptyState
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                } else {
-                    ForEach(viewModel.visibleItems) { item in
-                        ShoppingItemRow(
-                            item: item,
-                            onToggleCompletion: {
-                                viewModel.toggleCompletion(for: item)
-                            }
-                        )
-                        .listRowInsets(EdgeInsets(top: 1, leading: 6, bottom: 1, trailing: 6))
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button {
-                                delete(item)
-                            } label: {
-                                Label("Видалити", systemImage: "trash")
-                            }
-                            .tint(Color.appDestructive)
+        List {
+            if viewModel.visibleItems.isEmpty {
+                emptyState
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+            } else {
+                ForEach(viewModel.visibleItems) { item in
+                    ShoppingItemRow(
+                        item: item,
+                        onToggleCompletion: {
+                            viewModel.toggleCompletion(for: item)
                         }
+                    )
+                    .listRowInsets(EdgeInsets(top: 1, leading: 6, bottom: 1, trailing: 6))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button {
+                            delete(item)
+                        } label: {
+                            Label("Видалити", systemImage: "trash")
+                        }
+                        .tint(Color.appDestructive)
                     }
-                    .onDelete(perform: viewModel.deleteItems)
                 }
+                .onDelete(perform: viewModel.deleteItems)
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
-            .contentMargins(.top, 8, for: .scrollContent)
-            .background(Color.appBackground)
-            .safeAreaInset(edge: .top, spacing: 0) {
-                topHeader
-            }
-
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .contentMargins(.top, 8, for: .scrollContent)
+        .background(Color.appBackground)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            topHeader
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
             microphoneArea
         }
+        .background(Color.appBackground.ignoresSafeArea())
         .alert(
             "Голосовий ввід недоступний",
             isPresented: Binding(
@@ -132,7 +130,7 @@ struct ShoppingListView: View {
         .padding(.top, 10)
         .padding(.bottom, 18)
         .padding(.horizontal, 16)
-        .background(Color.appBackground.ignoresSafeArea(edges: .bottom))
+        .background(Color.appBackground)
         .overlay(alignment: .top) {
             Rectangle()
                 .fill(Color.appBorder)
