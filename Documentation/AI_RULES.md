@@ -291,11 +291,12 @@ Commit prefixes:
 
 Before finishing work:
 
-- build successfully
+- implement the requested change, then build successfully and verify the app works
+- update docs if anything changed
 - run the existing test suite and confirm it passes whenever a build is run
 - check for compiler or project errors after the build/test pass
+- when coverage is available, run the coverage workflow after the successful build/docs pass and report the coverage summary to the user
 - run successfully when practical
-- update docs if anything changed
 - avoid temporary or commented-out code
 
 Testing policy:

@@ -30,6 +30,23 @@ The visual system follows a minimalist, calm sage palette with one primary accen
 - Empty state
 - Minimalist calm-sage UI palette
 
+## Test coverage
+
+The shared Xcode scheme now has code coverage enabled for the `Needlyo` app target.
+
+To run tests and print the coverage report in the terminal:
+
+```bash
+cd "/Users/Dmytro_Pavlovskyi1/Desktop/IOS Projects/Shopping List/Shopping List"
+bash Scripts/test-coverage.sh
+```
+
+You can override the simulator destination if needed:
+
+```bash
+DESTINATION='platform=iOS Simulator,name=iPhone 17' bash Scripts/test-coverage.sh
+```
+
 ## Planned next steps
 
 - Persistence
