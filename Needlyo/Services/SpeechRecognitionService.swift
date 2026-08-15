@@ -54,6 +54,21 @@ final class SpeechRecognitionService: SpeechRecognitionServicing {
 
         let recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         recognitionRequest.shouldReportPartialResults = true
+        // Prefer on-device recognition when available for lower latency
+        // and potential privacy/accuracy improvements.
+        if #available(iOS 13.0, *) {
+            recognitionRequest.requiresOnDeviceRecognition = true
+        }
+
+        // Provide common shopping vocabulary to improve recognition for Ukrainian.
+        if #available(iOS 13.0, *) {
+            recognitionRequest.contextualStrings = [
+                "молоко", "хліб", "масло", "сир", "олія", "соняшникова олія",
+                "цукор", "сіль", "яйця", "банани", "яблука", "пральний порошок",
+                "пакет", "пачка", "кіло", "кг", "літр"
+            ]
+        }
+        recognitionRequest.taskHint = .dictation
         self.recognitionRequest = recognitionRequest
 
         let inputNode = audioEngine.inputNode

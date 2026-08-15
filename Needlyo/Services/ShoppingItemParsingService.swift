@@ -106,7 +106,9 @@ final class ShoppingItemParsingService {
         case 0, 1:
             return false
         case 2:
-            return !looksLikeCompoundDescriptor(words[0])
+            // Do not split pairs where the first word looks like an
+            // adjective/descriptor, a quantity word or a numeral.
+            return !(looksLikeCompoundDescriptor(words[0]) || isQuantityOrNumeral(words[0]))
         default:
             return true
         }
@@ -141,7 +143,50 @@ final class ShoppingItemParsingService {
             "ній"
         ]
 
-        return adjectiveLikeSuffixes.contains { lowercasedWord.hasSuffix($0) }
+        if adjectiveLikeSuffixes.contains(where: { lowercasedWord.hasSuffix($0) }) {
+            return true
+        }
+
+        // also treat common descriptor prefixes (e.g. "свіжий", "великий")
+        let adjectivePrefixes = ["св", "вел", "мал", "сол", "сма", "черв"]
+        if adjectivePrefixes.contains(where: { lowercasedWord.hasPrefix($0) }) {
+            return true
+        }
+
+        return false
+    }
+
+    private func isQuantityOrNumeral(_ word: String) -> Bool {
+        let lower = word.lowercased()
+
+        // Arabic numerals or numbers with units (e.g. "2", "2л", "200г")
+        if Int(lower) != nil { return true }
+        if Double(lower) != nil { return true }
+
+        // Words that indicate quantity/measure or spelled-out numbers in Ukrainian
+        let quantityWords: Set<String> = [
+            "кг", "г", "гр", "грам", "грамів", "літр", "л", "шт", "пачка", "пакет",
+            "упаковка", "плитка", "банка", "стакан", "кілограм", "кіло",
+            "один", "одна", "одне", "два", "дві", "три", "чотири", "п'ять",
+            "шість", "сім", "вісім", "дев'ять", "девять", "десять"
+        ]
+
+        // strip trailing punctuation
+        let stripped = lower.trimmingCharacters(in: .punctuationCharacters)
+
+        return quantityWords.contains(stripped) || stripped.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil
+    }
+
+    // A small whitelist of known multi-word items that should never be split.
+    // This can be expanded later or moved to user-editable storage.
+    private var multiWordWhitelist: Set<String> {
+        [
+            "соняшникова олія",
+            "олія оливкова",
+            "захисні рукавички",
+            "зубна паста",
+            "пральний порошок"
+        ]
     }
 
     private func containsSeparatorHint(_ text: String) -> Bool {
