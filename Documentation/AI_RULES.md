@@ -341,3 +341,22 @@ These are future goals unless they are explicitly implemented.
 # Final principle
 
 Every change should make Needlyo easier to understand, easier to extend, and more consistent than before.
+
+---
+
+# Appendix: recent AI-related implementation notes
+
+2026-08-15: Implemented local improvements to Ukrainian speech recognition and parsing:
+
+- Improved parsing heuristics in `Needlyo/Services/ShoppingItemParsingService.swift` to avoid
+  incorrectly splitting two-word Ukrainian item names (detects adjective-like suffixes/prefixes,
+  numerals and quantity words).
+- Added small whitelist for common multi-word items (can be migrated to a dynamic vocabulary
+  service later).
+- Enhanced `Needlyo/Services/SpeechRecognitionService.swift` to prefer on-device recognition when
+  available and to supply contextual shopping vocabulary (`contextualStrings`) to improve
+  Ukrainian recognition accuracy. Also set `taskHint = .dictation`.
+
+Note: Documentation and unit tests should be updated alongside feature changes. Consider
+adding a dynamic `RecognitionVocabularyService` and UI to allow users to save corrected
+phrases into the local vocabulary; this was analyzed and recommended on 2026-08-15.
