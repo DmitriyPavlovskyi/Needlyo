@@ -4,34 +4,72 @@ struct ShoppingListView: View {
 
     @State
     private var viewModel = ShoppingListViewModel()
+    @State private var editingItemID: ShoppingItem.ID?
+    @State private var draftTitle = ""
 
     var body: some View {
-        List {
-            if viewModel.visibleItems.isEmpty {
-                emptyState
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-            } else {
-                ForEach(viewModel.visibleItems) { item in
-                    ShoppingItemRow(
-                        item: item,
-                        onToggleCompletion: {
-                            viewModel.toggleCompletion(for: item)
+        ScrollViewReader { proxy in
+            List {
+                if viewModel.visibleItems.isEmpty {
+                    emptyState
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                } else {
+                    ForEach(viewModel.visibleItems) { item in
+                        ShoppingItemRow(
+                            item: item,
+                            isEditing: editingItemID == item.id,
+                            draftTitle: Binding(
+                                get: {
+                                    editingItemID == item.id ? draftTitle : item.title
+                                },
+                                set: { newValue in
+                                    guard editingItemID == item.id else {
+                                        return
+                                    }
+
+                                    draftTitle = newValue
+                                }
+                            ),
+                            onToggleCompletion: {
+                                viewModel.toggleCompletion(for: item)
+                            },
+                            onBeginEditing: {
+                                beginEditing(item)
+                            },
+                            onSaveEdit: {
+                                saveEditing()
+                            },
+                            onCancelEdit: {
+                                cancelEditing()
+                            }
+                        )
+                        .id(item.id)
+                        .listRowInsets(EdgeInsets(top: 1, leading: 6, bottom: 1, trailing: 6))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button {
+                                delete(item)
+                            } label: {
+                                Label("Видалити", systemImage: "trash")
+                            }
+                            .tint(Color.appDestructive)
                         }
-                    )
-                    .listRowInsets(EdgeInsets(top: 1, leading: 6, bottom: 1, trailing: 6))
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button {
-                            delete(item)
-                        } label: {
-                            Label("Видалити", systemImage: "trash")
-                        }
-                        .tint(Color.appDestructive)
+                    }
+                    .onDelete(perform: viewModel.deleteItems)
+                }
+            }
+            .onChange(of: editingItemID) { _, newValue in
+                guard let editingItemID = newValue else {
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    withAnimation(.easeInOut(duration: 0.18)) {
+                        proxy.scrollTo(editingItemID, anchor: .center)
                     }
                 }
-                .onDelete(perform: viewModel.deleteItems)
             }
         }
         .listStyle(.plain)
@@ -42,7 +80,9 @@ struct ShoppingListView: View {
             topHeader
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            microphoneArea
+            if editingItemID == nil {
+                microphoneArea
+            }
         }
         .background(Color.appBackground.ignoresSafeArea())
         .alert(
@@ -143,7 +183,32 @@ struct ShoppingListView: View {
             return
         }
 
+        if editingItemID == item.id {
+            cancelEditing()
+        }
+
         viewModel.deleteItems(at: IndexSet(integer: index))
+    }
+
+    private func beginEditing(_ item: ShoppingItem) {
+        editingItemID = item.id
+        draftTitle = item.title
+    }
+
+    private func saveEditing() {
+        guard let editingItemID,
+              let item = viewModel.visibleItems.first(where: { $0.id == editingItemID }) else {
+            cancelEditing()
+            return
+        }
+
+        viewModel.updateTitle(for: item, to: draftTitle)
+        cancelEditing()
+    }
+
+    private func cancelEditing() {
+        editingItemID = nil
+        draftTitle = ""
     }
 
 }

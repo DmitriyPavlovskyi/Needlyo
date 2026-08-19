@@ -85,6 +85,25 @@ final class ShoppingListViewModel {
         persistItems()
     }
 
+    func updateTitle(for item: ShoppingItem, to newTitle: String) {
+        guard let index = items.firstIndex(where: { $0.id == item.id }) else {
+            return
+        }
+
+        let trimmedTitle = newTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !trimmedTitle.isEmpty else {
+            return
+        }
+
+        guard items[index].title != trimmedTitle else {
+            return
+        }
+
+        items[index].title = trimmedTitle
+        persistItems()
+    }
+
     func deleteItems(at offsets: IndexSet) {
         let idsToDelete = offsets.map { visibleItems[$0].id }
         items.removeAll { item in

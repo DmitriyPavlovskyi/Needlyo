@@ -23,6 +23,10 @@ The visual system follows a minimalist, calm sage palette with one primary accen
 - Search by item title
 - Category grouping
 - Checkbox completion
+- Tap row to edit item title inline
+- Inline edit with save / cancel icon buttons
+- Auto-scroll edited item into view
+- Microphone hides while editing
 - Swipe-to-delete
 - Voice input for adding items
 - XCTest coverage for core parser, persistence, view model, and model behavior

@@ -207,6 +207,10 @@ Do not use bright colors to mark completion.
 ## 6. Interaction rules
 
 - Tapping a checkbox toggles completion.
+- Tapping the item body opens inline edit mode for the title.
+- Inline edit mode uses a text field with icon-only save / cancel controls.
+- The microphone area must hide while editing is active.
+- When editing starts, the list should keep the edited row visible and scrolled above the keyboard.
 - Swipe actions should stay standard iOS gestures.
 - Destructive actions should remain clearly destructive.
 - Search filters item titles case-insensitively.
@@ -302,10 +306,12 @@ The primary screen should follow this structure:
 
 The row should contain only what it needs:
 
-- tappable completion area
+- tappable completion area for done / undone
+- tappable body area for inline editing
 - item title
 - optional secondary info like quantity or price
 - subtle completion styling
+- icon-only save / cancel controls while editing
 
 If an element does not help the user shop faster, remove it.
 
@@ -319,7 +325,7 @@ These items are still future work unless explicitly implemented:
 - richer completion animations
 - haptic feedback polish
 - separate completed section
-- pin / edit swipe actions
+- optional edit affordance refinements, if we later want a dedicated edit button instead of tap-to-edit
 - stronger accessibility and localization polish
 - additional semantic tokens only if a new UI pattern genuinely needs them
 

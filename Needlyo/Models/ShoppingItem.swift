@@ -3,7 +3,7 @@ import Foundation
 struct ShoppingItem: Identifiable, Codable, Equatable {
 
     let id: UUID
-    let title: String
+    var title: String
     var isCompleted: Bool
 
     init(

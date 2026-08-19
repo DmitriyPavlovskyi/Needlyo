@@ -7,6 +7,10 @@
 - Search
 - Category grouping
 - Checkbox completion
+- Inline tap-to-edit for item titles
+- Icon-only save / cancel controls in edit mode
+- Microphone hides during editing
+- Edited row auto-scrolls into view when keyboard appears
 - Swipe-to-delete
 - Speech recognition input
 - Keyword-based classification
@@ -18,6 +22,7 @@
 - Save and restore shopping items
 - Better delete and completion flows
 - Tests for parsing, classification, and list behavior
+- Accessibility and localization polish for editing interactions
 
 ## Later
 

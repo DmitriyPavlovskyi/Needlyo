@@ -115,6 +115,34 @@ final class ShoppingListViewModelTests: XCTestCase {
         XCTAssertEqual(persistence.lastSavedItems?.first?.isCompleted, true)
     }
 
+    func testUpdateTitleReplacesItemTitleAndPersists() {
+        let item = ShoppingItem(title: "молоко")
+        let persistence = MockShoppingListPersistenceService(itemsToLoad: [item])
+        let viewModel = ShoppingListViewModel(
+            persistenceService: persistence,
+            itemParsingService: ShoppingItemParsingService()
+        )
+
+        viewModel.updateTitle(for: item, to: "  вершкове молоко  ")
+
+        XCTAssertEqual(viewModel.visibleItems.first?.title, "вершкове молоко")
+        XCTAssertEqual(persistence.lastSavedItems?.first?.title, "вершкове молоко")
+    }
+
+    func testUpdateTitleIgnoresEmptyValues() {
+        let item = ShoppingItem(title: "молоко")
+        let persistence = MockShoppingListPersistenceService(itemsToLoad: [item])
+        let viewModel = ShoppingListViewModel(
+            persistenceService: persistence,
+            itemParsingService: ShoppingItemParsingService()
+        )
+
+        viewModel.updateTitle(for: item, to: "   ")
+
+        XCTAssertEqual(viewModel.visibleItems.first?.title, "молоко")
+        XCTAssertNil(persistence.lastSavedItems)
+    }
+
     func testDeleteItemsRemovesCorrectRowAndPersists() {
         let items = [ShoppingItem(title: "молоко"), ShoppingItem(title: "хліб")]
         let persistence = MockShoppingListPersistenceService(itemsToLoad: items)
