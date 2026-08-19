@@ -6,6 +6,7 @@ struct ShoppingListView: View {
     private var viewModel = ShoppingListViewModel()
     @State private var editingItemID: ShoppingItem.ID?
     @State private var draftTitle = ""
+    @State private var showingClearConfirmation = false
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -60,6 +61,13 @@ struct ShoppingListView: View {
                     .onDelete(perform: viewModel.deleteItems)
                 }
             }
+            .gesture(
+                TapGesture().onEnded {
+                    if editingItemID != nil {
+                        cancelEditing()
+                    }
+                }
+            )
             .onChange(of: editingItemID) { _, newValue in
                 guard let editingItemID = newValue else {
                     return
@@ -78,10 +86,24 @@ struct ShoppingListView: View {
         .background(Color.appBackground)
         .safeAreaInset(edge: .top, spacing: 0) {
             topHeader
+                .gesture(
+                    TapGesture().onEnded {
+                        if editingItemID != nil {
+                            cancelEditing()
+                        }
+                    }
+                )
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             if editingItemID == nil {
                 microphoneArea
+                    .gesture(
+                        TapGesture().onEnded {
+                            if editingItemID != nil {
+                                cancelEditing()
+                            }
+                        }
+                    )
             }
         }
         .background(Color.appBackground.ignoresSafeArea())
@@ -100,14 +122,42 @@ struct ShoppingListView: View {
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
+        .confirmationDialog(
+            "Очистити список?",
+            isPresented: $showingClearConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Очистити", role: .destructive) {
+                clearList()
+            }
+
+            Button("Скасувати", role: .cancel) {}
+        } message: {
+            Text("Усі товари буде видалено з цього списку. Цю дію не можна скасувати.")
+        }
     }
 
     private var topHeader: some View {
-        VStack(spacing: 10) {
+        ZStack(alignment: .trailing) {
             Text("Що треба купити")
                 .font(.title2.weight(.semibold))
                 .foregroundStyle(Color.appTextPrimary)
                 .frame(maxWidth: .infinity, alignment: .center)
+
+            if !viewModel.visibleItems.isEmpty {
+                Button {
+                    showingClearConfirmation = true
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundStyle(Color.appDestructive)
+                        .frame(width: 36, height: 36)
+                        .contentShape(Rectangle())
+                }
+                .accessibilityLabel("Очистити список")
+                .accessibilityHint("Видалити всі товари зі списку")
+                .padding(.trailing, 10)
+            }
         }
         .padding(.horizontal, 16)
         .padding(.top, 10)
@@ -188,6 +238,11 @@ struct ShoppingListView: View {
         }
 
         viewModel.deleteItems(at: IndexSet(integer: index))
+    }
+
+    private func clearList() {
+        cancelEditing()
+        viewModel.clearAllItems()
     }
 
     private func beginEditing(_ item: ShoppingItem) {

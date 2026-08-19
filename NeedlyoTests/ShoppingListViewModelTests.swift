@@ -157,6 +157,20 @@ final class ShoppingListViewModelTests: XCTestCase {
         XCTAssertEqual(persistence.lastSavedItems?.map(\.title), ["хліб"])
     }
 
+    func testClearAllItemsRemovesEverythingAndPersistsEmptyList() {
+        let items = [ShoppingItem(title: "молоко"), ShoppingItem(title: "хліб")]
+        let persistence = MockShoppingListPersistenceService(itemsToLoad: items)
+        let viewModel = ShoppingListViewModel(
+            persistenceService: persistence,
+            itemParsingService: ShoppingItemParsingService()
+        )
+
+        viewModel.clearAllItems()
+
+        XCTAssertEqual(viewModel.visibleItems, [])
+        XCTAssertEqual(persistence.lastSavedItems, [])
+    }
+
     func testVisibleItemsReflectsCurrentItemsArray() {
         let persistence = MockShoppingListPersistenceService(itemsToLoad: [])
         let viewModel = ShoppingListViewModel(

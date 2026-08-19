@@ -90,6 +90,17 @@ struct ShoppingItemRow: View {
                 isTitleFocused = false
             }
         }
+        .onChange(of: isTitleFocused) { _, newValue in
+            guard isEditing, !newValue else {
+                return
+            }
+
+            DispatchQueue.main.async {
+                if isEditing && !isTitleFocused {
+                    onCancelEdit()
+                }
+            }
+        }
         .onAppear {
             if isEditing {
                 focusEditor()

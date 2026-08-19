@@ -112,6 +112,15 @@ final class ShoppingListViewModel {
         persistItems()
     }
 
+    func clearAllItems() {
+        guard !items.isEmpty else {
+            return
+        }
+
+        items.removeAll()
+        persistItems()
+    }
+
     private func finishListening() {
         guard isListening else {
             return
